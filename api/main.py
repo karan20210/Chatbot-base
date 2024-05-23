@@ -4,7 +4,7 @@ import os
 from dotenv import load_dotenv
 from pymongo import MongoClient
 from pymongo.collection import ReturnDocument
-from fastapi import FastAPI, HTTPException, Request
+from fastapi import FastAPI, HTTPException, Request, Query
 from pydantic import BaseModel
 from bson import json_util, ObjectId
 import json
@@ -88,6 +88,18 @@ async def edit_text(text: Text, text_id: str):
         return {"message": "Text updated successfully", "id": text_id}
     raise HTTPException(status_code=404, detail="Text not found")
 
+# CHATBOT APIs
+@app.get("/api/fetch-links")
+async def fetch_links(url: str = Query(..., description="URL to fetch links from")):    
+    print(f"Fetching links from: {url}")
+    # DO SMH HERE
+    return {"status": "success", "message": f"Links fetched from {url}"}
+
+@app.get("/api/load-sitemap")
+async def load_sitemap(url: str = Query(..., description="Sitemap URL to load")):    
+    print(f"Loading sitemap from: {url}")
+    # DO SMH HERE
+    return {"status": "success", "message": f"Loaded sitemap from {url}"}
 
 class Chatbot(BaseModel):
     name: str

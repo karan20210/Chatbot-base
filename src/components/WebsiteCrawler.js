@@ -6,7 +6,9 @@ const WebsiteCrawler = ({ url, setUrl, sitemapUrl, setSitemapUrl }) => {
 		try {
 			console.log(`Fetching links for: ${url}`);
 			const response = await fetch(
-				`/api/fetch-links?url=${encodeURIComponent(url)}`,
+				`${
+					process.env.NEXT_PUBLIC_BACKEND_API_URL
+				}/api/fetch-links?url=${encodeURIComponent(url)}`,
 				{
 					method: 'GET',
 					headers: {
@@ -25,7 +27,9 @@ const WebsiteCrawler = ({ url, setUrl, sitemapUrl, setSitemapUrl }) => {
 		try {
 			console.log(`Loading sitemap from: ${sitemapUrl}`);
 			const response = await fetch(
-				`/api/load-sitemap?url=${encodeURIComponent(sitemapUrl)}`,
+				`${
+					process.env.NEXT_PUBLIC_BACKEND_API_URL
+				}/api/load-sitemap?url=${encodeURIComponent(sitemapUrl)}`,
 				{
 					method: 'GET',
 					headers: {
