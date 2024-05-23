@@ -15,7 +15,7 @@ export default NextAuth({
 				user.account.provider === 'google' &&
 				user.profile.email_verified === true
 			) {
-				fetch(`${process.env.BACKEND_API_URL}/api/users/`, {
+				fetch(`${process.env.NEXT_PUBLIC_BACKEND_API_URL}/api/users/`, {
 					method: 'POST',
 					headers: {
 						'Content-Type': 'application/json',

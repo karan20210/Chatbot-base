@@ -144,7 +144,7 @@ async def get_all_chatbots(user_email: str):
         raise HTTPException(status_code=400, detail=str(e))
 
 @app.get("/api/chatbot/{chatbot_id}")
-async def get_all_chatbots(chatbot_id: str):        
+async def get_chatbot(chatbot_id: str):        
     try:
         chatbot_collection = get_chatbot_collection()        
         chatbot = chatbot_collection.find_one({"_id": ObjectId(chatbot_id)})        
