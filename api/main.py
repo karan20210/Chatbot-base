@@ -9,6 +9,8 @@ from pydantic import BaseModel
 from bson import json_util, ObjectId
 import json
 
+from crawler.crawler import get_links
+
 load_dotenv()
 
 app = FastAPI()
@@ -92,7 +94,10 @@ async def edit_text(text: Text, text_id: str):
 @app.get("/api/fetch-links")
 async def fetch_links(url: str = Query(..., description="URL to fetch links from")):    
     print(f"Fetching links from: {url}")
-    # DO SMH HERE
+    
+    url_list = get_links(url)
+    print(url_list)
+
     return {"status": "success", "message": f"Links fetched from {url}"}
 
 @app.get("/api/load-sitemap")
