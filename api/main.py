@@ -9,7 +9,7 @@ from pydantic import BaseModel
 from bson import json_util, ObjectId
 import json
 
-from crawler.crawler import get_links
+from .crawler import get_links
 
 load_dotenv()
 
@@ -90,15 +90,12 @@ async def edit_text(text: Text, text_id: str):
         return {"message": "Text updated successfully", "id": text_id}
     raise HTTPException(status_code=404, detail="Text not found")
 
-# CHATBOT APIs
 @app.get("/api/fetch-links")
-async def fetch_links(url: str = Query(..., description="URL to fetch links from")):    
-    print(f"Fetching links from: {url}")
-    
+async def fetch_links(url: str = Query(..., description="URL to fetch links from")):            
     url_list = get_links(url)
     print(url_list)
 
-    return {"status": "success", "message": f"Links fetched from {url}"}
+    return {"status_code": 200, "url_list": url_list}
 
 @app.get("/api/load-sitemap")
 async def load_sitemap(url: str = Query(..., description="Sitemap URL to load")):    
