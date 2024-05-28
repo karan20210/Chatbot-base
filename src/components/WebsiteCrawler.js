@@ -1,7 +1,12 @@
 // WebsiteCrawler.jsx
 import React from 'react';
+import { useState } from 'react';
+import TextField from '@mui/material/TextField';
+import IconButton from '@mui/material/IconButton';
+import DeleteIcon from '@mui/icons-material/Delete';
 
 const WebsiteCrawler = ({ url, setUrl, sitemapUrl, setSitemapUrl }) => {
+	const [urls, setUrls] = useState([]);
 	const handleFetchLinks = async () => {
 		try {
 			console.log(`Fetching links for: ${url}`);
@@ -17,6 +22,7 @@ const WebsiteCrawler = ({ url, setUrl, sitemapUrl, setSitemapUrl }) => {
 				}
 			);
 			const data = await response.json();
+			setUrls(data['url_list']);
 			console.log('Fetch links response:', data);
 		} catch (error) {
 			console.error('Error fetching links:', error);
@@ -42,6 +48,17 @@ const WebsiteCrawler = ({ url, setUrl, sitemapUrl, setSitemapUrl }) => {
 		} catch (error) {
 			console.error('Error loading sitemap:', error);
 		}
+	};
+
+	const handleDelete = (index) => {
+		const newLinks = urls.filter((_, i) => i !== index);
+		setUrls(newLinks);
+	};
+
+	const handleUrlChange = (index, newValue) => {
+		const newLinks = [...urls];
+		newLinks[index] = newValue;
+		setUrls(newLinks);
 	};
 
 	return (
@@ -96,6 +113,23 @@ const WebsiteCrawler = ({ url, setUrl, sitemapUrl, setSitemapUrl }) => {
 				<hr className="border-gray-300 flex-grow" />
 				<span className="mx-2 text-gray-500">Included Links</span>
 				<hr className="border-gray-300 flex-grow" />
+			</div>
+			<div className="space-y-4 p-4">
+				{urls.map((link, index) => (
+					<div key={index} className="flex items-center space-x-2">
+						<TextField
+							label="URL"
+							variant="outlined"
+							value={link}
+							onChange={(e) => handleUrlChange(index, e.target.value)}
+							fullWidth
+							className="flex-grow"
+						/>
+						<IconButton onClick={() => handleDelete(index)} color="error">
+							<DeleteIcon />
+						</IconButton>
+					</div>
+				))}
 			</div>
 		</div>
 	);
